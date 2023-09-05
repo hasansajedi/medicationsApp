@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  medication_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        ENABLE_DOCUMENTATION: ${ENABLE_DOCUMENTATION}
+        DEBUG: ${DEBUG}
+        BACKEND_PORT: ${BACKEND_PORT}
+        SHRED_ACCESS_KEY: ${SHRED_ACCESS_KEY}
+    working_dir: /workspace
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    env_file:
+      - .env
+    container_name: medicationApi
+    volumes:
+      - ./backend:/workspace
+
+  medication_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
+        REACT_APP_SHRED_ACCESS_KEY: ${REACT_APP_SHRED_ACCESS_KEY}
+    ports:
+      - "8006:3000"
+    expose:
+      - 8006
+    env_file:
+      - .env
+    container_name: medicationFrontend
+    depends_on:
+      - medication_api
+    volumes:
+      - ./frontend:/workspace
