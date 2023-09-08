@@ -1,4 +1,7 @@
-# Build 
+# Medication API Documentation
+Welcome to the Medication API documentation. This API provides endpoints for managing medication-related data.
+
+# Build and Deployment 
 
 ## Start containers
 
@@ -69,6 +72,10 @@ medicationFrontend  |
 medicationFrontend  | webpack compiled successfully
 ```
 
+## Backend API
+
+The Api is accessible at http://localhost:8005/docs.
+
 ### Run tests of API
 
 ```shell
@@ -106,7 +113,7 @@ Get a paginated list of possible medications.
   - `search`: Search keyword to filter the data (optional)
 - **Response:**
   - HTTP status code: 200 OK
-  - Response body: Paginated list of shipment models
+  - Response body: Paginated list of Drugs models
   ```json
   {
     "items": [
@@ -129,6 +136,7 @@ Get a paginated list of possible medications.
 ### Auth
 
 #### Get access token
+This endpoint allows you to obtain an access token for making authenticated requests to the API. The `grant_type` must be set to `password` for a valid request.
 
 - **URL:** `/api/auth/token`
 - **Method:** POST
@@ -136,7 +144,17 @@ Get a paginated list of possible medications.
   - `grant_type`: Must be `password`
   - `username`: Username 
   - `password`: Password 
-  - `client_secret`: SHARED_TOKEN 
+  - `client_secret`: SHARED_TOKEN
+- **Request Body:**
+  - To obtain an access token, send a POST request with the following JSON data:
+    ```json
+      data = {
+          "grant_type": "password",
+          "username": "username",
+          "password": "password",
+          "client_secret": "rRoFT3H6mzMrUW7XuaOGz7VEaFt42QZy8LVLeBCZBEHskm983gmMfb7nJUwmZr2I5NwzyaVSE8DeMeDB8mgmRIwVMuyGPYAOINbUlAFlPNcTUzodQ5VCFpRNNtMJjn4x",
+      }
+      ```
 - **Response:**
   - HTTP status code: 201
   - Response body: Token model
@@ -150,6 +168,9 @@ Get a paginated list of possible medications.
 ## Docs
 The documentation endpoint is available under docs endpoint.
 URL: http://127.0.0.1:8005/docs
+
+## Frontend
+The frontend is accessible at http://localhost:3000/.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
