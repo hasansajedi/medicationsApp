@@ -148,7 +148,7 @@ This endpoint allows you to obtain an access token for making authenticated requ
 - **Request Body:**
   - To obtain an access token, send a POST request with the following JSON data:
     ```json
-      data = {
+      {
           "grant_type": "password",
           "username": "username",
           "password": "password",
