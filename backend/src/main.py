@@ -1,10 +1,18 @@
+import logging
+from datetime import datetime
+
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
+import redis.asyncio as redis
+from fastapi_limiter import FastAPILimiter
 from starlette.middleware.cors import CORSMiddleware
+from starlette.requests import Request
 
 from src.api.dependencies.configuration import app_settings
 from src.router import router
+
+logger = logging.getLogger("uvicorn")
 
 app = FastAPI(
     title=app_settings.title,
@@ -13,6 +21,26 @@ app = FastAPI(
     docs_url=app_settings.docs_url,
     openapi_url=app_settings.openapi_url,
 )
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = datetime.utcnow()
+    response = await call_next(request)
+    end_time = datetime.utcnow()
+
+    log_message = {
+        "timestamp": start_time.isoformat(),
+        "method": request.method,
+        "path": request.url.path,
+        "status_code": response.status_code,
+        "processing_time": (end_time - start_time).total_seconds(),
+    }
+
+    logger.info(log_message)
+
+    return response
+
 
 # Allow requests from React app's domain
 origins = [
@@ -54,3 +82,14 @@ def custom_openapi():
 @app.get("/openapi.json", include_in_schema=False)
 async def get_open_api_endpoint():
     return JSONResponse(content=custom_openapi())
+
+
+@app.on_event("startup")
+async def startup():
+    redis_client = redis.from_url("redis://localhost", encoding="utf8")
+    await FastAPILimiter.init(redis_client)
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await FastAPILimiter.close()

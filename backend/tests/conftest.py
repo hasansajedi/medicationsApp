@@ -28,13 +28,13 @@ def default_app_with_wrong_dataset_path() -> FastAPI:
 
 
 @pytest.fixture
-def api_client(default_app) -> TestClient:
+def api_client(default_app: FastAPI) -> TestClient:
     return TestClient(default_app)
 
 
 @pytest.fixture
 def api_client_with_wrong_dataset_path(
-    default_app_with_wrong_dataset_path,
+    default_app_with_wrong_dataset_path: FastAPI,
 ) -> TestClient:
     return TestClient(default_app_with_wrong_dataset_path)
 

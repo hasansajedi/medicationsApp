@@ -1,3 +1,5 @@
+from typing import Optional, Dict
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -6,7 +8,7 @@ from src.api.dependencies.configuration import app_settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-def validate_shared_access_key(shared_access_key: str):
+def validate_shared_access_key(shared_access_key: str) -> bool:
     """
     Validate if the provided shared access key matches the configured access key.
 
@@ -19,7 +21,7 @@ def validate_shared_access_key(shared_access_key: str):
     return app_settings.SHRED_ACCESS_KEY == shared_access_key
 
 
-def verify_token(access_token: str = Depends(oauth2_scheme)):
+def verify_token(access_token: str = Depends(oauth2_scheme)) -> Optional[Dict]:
     """
     Verify and decode given access token.
 

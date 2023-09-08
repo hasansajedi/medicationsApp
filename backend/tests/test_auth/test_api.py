@@ -36,3 +36,16 @@ async def test_cannot_get_access_token_with_wrong_access_key(api_client: TestCli
 
     response = api_client.post("/api/auth/token", data=data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@pytest.mark.asyncio
+async def test_cannot_get_access_token_with_wrong_grant_type(api_client: TestClient):
+    data = {
+        "grant_type": "invalid_grant_type",
+        "username": "username",
+        "password": "password",
+        "client_secret": "test",
+    }
+
+    response = api_client.post("/api/auth/token", data=data)
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY

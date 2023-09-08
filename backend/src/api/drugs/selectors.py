@@ -52,7 +52,7 @@ class LoadDrugDataHelper:
             )
 
     @classmethod
-    def row_to_pydantic_model(cls, row: Union[Dict, Series]):
+    def row_to_pydantic_model(cls, row: Union[Dict, Series]) -> DrugModel:
         """
         Convert a row to a Pydantic DrugModel instance.
 
@@ -65,7 +65,7 @@ class LoadDrugDataHelper:
         return DrugModel(**row)
 
     @classmethod
-    async def _load_data(cls, data_path: str, search_keyword: str = None):
+    async def _load_data(cls, data_path: str, search_keyword: str = None) -> DataFrame:
         """
         Load data from a JSON file and optionally filter it by search keyword.
 
