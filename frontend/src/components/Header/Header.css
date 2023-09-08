@@ -37,23 +37,28 @@
 }
 
 @media screen and (max-width: 768px) {
-    /* Add responsive styles for smaller screens */
     .header {
-        flex-direction: column; /* Stack items vertically on smaller screens */
-        text-align: center; /* Center align text on smaller screens */
+        flex-direction: column;
+        text-align: center;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 
     .logo {
-        margin-right: 0; /* Remove margin for logo on smaller screens */
-        margin-bottom: 16px; /* Add spacing below the logo */
+        text-align: left;
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 40%;
     }
 
     .app-name {
-        font-size: 20px; /* Adjust font size for smaller screens */
+        font-size: 20px;
+        text-align: left;
     }
 
     .nav-links li {
-        margin-right: 0; /* Remove margin between navigation links on smaller screens */
-        margin-bottom: 8px; /* Add spacing below navigation links */
+        margin-right: 0;
+        margin-bottom: 8px;
     }
 }

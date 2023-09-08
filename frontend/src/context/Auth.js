@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function getAccessToken() {
     try {
-        const credential = "grant_type=password&username=password&password=password&client_secret=" + process.env.REACT_APP_SHRED_ACCESS_KEY;
+        const credential = "grant_type=password&username=test&password=password&client_secret=" + process.env.REACT_APP_SHRED_ACCESS_KEY;
         const url = process.env.REACT_APP_BACKEND_URL + 'api/auth/token';
 
         const response = await axios.post(url, credential, {
