@@ -1,5 +1,5 @@
-# Medication APP Documentation
-Welcome to the Medication API documentation. This API provides endpoints for managing medication-related data.
+# Medication
+Welcome to the Medication APP documentation. This API provides endpoints and UI for managing medication-related data.
 
 # Build and Deployment 
 
