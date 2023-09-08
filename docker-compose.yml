@@ -1,6 +1,19 @@
 version: '3.8'
 services:
+  medication_redis:
+    network_mode: "host"
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6321:6321'
+    command: redis-server --port 6333
+    expose:
+      - "6321"
+    volumes:
+      - cache:/data
+
   medication_api:
+    network_mode: "host"
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -14,11 +27,14 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     env_file:
       - .env
+    depends_on:
+      - medication_redis
     container_name: medicationApi
     volumes:
       - ./backend:/workspace
 
   medication_frontend:
+    network_mode: "host"
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -36,3 +52,7 @@ services:
       - medication_api
     volumes:
       - ./frontend:/workspace
+
+volumes:
+  cache:
+    driver: local
